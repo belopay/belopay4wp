@@ -72,7 +72,7 @@ function belopay_init_gateway_class() {
             $this->form_fields = array(
                 'enabled' => array(
                     'title'       => 'Enable/Disable',
-                    'label'       => 'Enable Misha Gateway',
+                    'label'       => 'Enable Belopay Gateway',
                     'type'        => 'checkbox',
                     'description' => '',
                     'default'     => 'no'
@@ -142,15 +142,15 @@ function belopay_init_gateway_class() {
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
             echo '<div class="form-row form-row-wide"><label>Card Number <span class="required">*</span></label>
-                <input id="misha_ccNo" type="text" autocomplete="off">
+                <input id="belopay_ccNo" type="text" autocomplete="off">
                 </div>
                 <div class="form-row form-row-first">
                     <label>Expiry Date <span class="required">*</span></label>
-                    <input id="misha_expdate" type="text" autocomplete="off" placeholder="MM / YY">
+                    <input id="belopay_expdate" type="text" autocomplete="off" placeholder="MM / YY">
                 </div>
                 <div class="form-row form-row-last">
                     <label>Card Code (CVC) <span class="required">*</span></label>
-                    <input id="misha_cvv" type="password" autocomplete="off" placeholder="CVC">
+                    <input id="belopay_cvv" type="password" autocomplete="off" placeholder="CVC">
                 </div>
                 <div class="clear"></div>';
         
@@ -186,17 +186,17 @@ function belopay_init_gateway_class() {
             }
 
             // let's suppose it is our payment processor JavaScript that allows to obtain a token
-            wp_enqueue_script( 'misha_js', 'https://www.mishapayments.com/api/token.js' );
+            wp_enqueue_script( 'belopay_js', 'https://www.belopay.com/api/token.js' );
 
             // and this is our custom JS in your plugin directory that works with token.js
-            wp_register_script( 'woocommerce_misha', plugins_url( 'misha.js', __FILE__ ), array( 'jquery', 'misha_js' ) );
+            wp_register_script( 'woocommerce_belopay', plugins_url( 'belopay.js', __FILE__ ), array( 'jquery', 'belopay_js' ) );
 
             // in most payment processors you have to use PUBLIC KEY to obtain a token
-            wp_localize_script( 'woocommerce_misha', 'misha_params', array(
+            wp_localize_script( 'woocommerce_belopay', 'belopay_params', array(
                 'publishableKey' => $this->publishable_key
             ) );
 
-            wp_enqueue_script( 'woocommerce_misha' );
+            wp_enqueue_script( 'woocommerce_belopay' );
 
 	
 	 	}
@@ -276,9 +276,12 @@ function belopay_init_gateway_class() {
 		 * In case you need a webhook, like PayPal IPN etc
 		 */
 		public function webhook() {
-
-		
-					
-	 	}
+	
+            $order = wc_get_order( $_GET['id'] );
+            $order->payment_complete();
+            $order->reduce_order_stock();
+        
+            update_option('webhook_debug', $_GET);
+        }
  	}
 }

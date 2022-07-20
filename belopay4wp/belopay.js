@@ -4,7 +4,7 @@ var successCallback = function(data) {
 
 	// add a token to our hidden input field
 	// console.log(data) to find the token
-	checkout_form.find('#misha_token').val(data.token);
+	checkout_form.find('#belopay_token').val(data.token);
 
 	// deactivate the tokenRequest function event
 	checkout_form.off( 'checkout_place_order', tokenRequest );
@@ -21,7 +21,7 @@ var errorCallback = function(data) {
 var tokenRequest = function() {
 
 	// here will be a payment gateway function that process all the card data from your form,
-	// maybe it will need your Publishable API key which is misha_params.publishableKey
+	// maybe it will need your Publishable API key which is belopay_params.publishableKey
 	// and fires successCallback() on success and errorCallback on failure
 	return false;
 		
