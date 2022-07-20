@@ -224,11 +224,23 @@ function belopay_init_gateway_class() {
             * Your API interaction could be built with wp_remote_post()
             */
             $response = wp_remote_post( '{payment processor endpoint}', $args );
+
+            /**
+             * Simulation
+             */
+            $response = [
+                'body' => [
+                    'response' => [
+                        'responseCode' => 'APPROVED',
+                    ],
+                ]
+            ];
         
         
             if( !is_wp_error( $response ) ) {
         
-                $body = json_decode( $response['body'], true );
+                // $body = json_decode( $response['body'], true );
+                $body = $response['body'];
         
                 // it could be different depending on your payment processor
                 if ( $body['response']['responseCode'] == 'APPROVED' ) {
@@ -250,12 +262,12 @@ function belopay_init_gateway_class() {
                     );
         
                 } else {
-                    wc_add_notice(  'Please try again.', 'error' );
+                    wc_add_notice(  'Belopay : Please try again.', 'error' );
                     return;
                 }
         
             } else {
-                wc_add_notice(  'Connection error.', 'error' );
+                wc_add_notice(  'Belopay : Connection error.', 'error' );
                 return;
             }
         
