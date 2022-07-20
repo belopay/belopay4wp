@@ -81,14 +81,14 @@ function belopay_init_gateway_class() {
                     'title'       => 'Title',
                     'type'        => 'text',
                     'description' => 'This controls the title which the user sees during checkout.',
-                    'default'     => 'Credit Card',
+                    'default'     => 'Mobile money',
                     'desc_tip'    => true,
                 ),
                 'description' => array(
                     'title'       => 'Description',
                     'type'        => 'textarea',
                     'description' => 'This controls the description which the user sees during checkout.',
-                    'default'     => 'Pay with your credit card via our super-cool payment gateway.',
+                    'default'     => 'Paiement par Mobile Money. <br /> MVola : 034 04 861 23 <br />Orange Money : 032 01 234 56. <br /><br />',
                 ),
                 'testmode' => array(
                     'title'       => 'Test mode',
@@ -127,7 +127,7 @@ function belopay_init_gateway_class() {
             if ( $this->description ) {
                 // you can instructions for test mode, I mean test card numbers etc.
                 if ( $this->testmode ) {
-                    $this->description .= ' TEST MODE ENABLED. In test mode, you can use the card numbers listed in <a href="#">documentation</a>.';
+                    $this->description .= ' Mode Test Activé . En mode test, vous pouvez utiliser les references de transaction tests. <a href="#">Documentation</a>.';
                     $this->description  = trim( $this->description );
                 }
                 // display the description with <p> tags etc.
@@ -141,18 +141,7 @@ function belopay_init_gateway_class() {
             do_action( 'woocommerce_credit_card_form_start', $this->id );
         
             // I recommend to use inique IDs, because other gateways could already use #ccNo, #expdate, #cvc
-            echo '<div class="form-row form-row-wide"><label>Card Number <span class="required">*</span></label>
-                <input id="belopay_ccNo" type="text" autocomplete="off">
-                </div>
-                <div class="form-row form-row-first">
-                    <label>Expiry Date <span class="required">*</span></label>
-                    <input id="belopay_expdate" type="text" autocomplete="off" placeholder="MM / YY">
-                </div>
-                <div class="form-row form-row-last">
-                    <label>Card Code (CVC) <span class="required">*</span></label>
-                    <input id="belopay_cvv" type="password" autocomplete="off" placeholder="CVC">
-                </div>
-                <div class="clear"></div>';
+            echo getMobileMoneyManualForm();
         
             do_action( 'woocommerce_credit_card_form_end', $this->id );
         
@@ -284,4 +273,35 @@ function belopay_init_gateway_class() {
             update_option('webhook_debug', $_GET);
         }
  	}
+}
+
+
+function getCreditCardForm(){
+    return '<div class="form-row form-row-wide"><label>Card Number <span class="required">*</span></label>
+        <input id="belopay_ccNo" type="text" autocomplete="off">
+        </div>
+        <div class="form-row form-row-first">
+            <label>Expiry Date <span class="required">*</span></label>
+            <input id="belopay_expdate" type="text" autocomplete="off" placeholder="MM / YY">
+        </div>
+        <div class="form-row form-row-last">
+            <label>Card Code (CVC) <span class="required">*</span></label>
+            <input id="belopay_cvv" type="password" autocomplete="off" placeholder="CVC">
+        </div>
+        <div class="clear"></div>';
+}
+function getMobileMoneyManualForm(){
+    return '
+        <div class="form-row form-row-wide">
+            <label for="providers-payments">Vous utilisez quelle operateur : <span class="required">*</span></label>
+            <select name="providers-payments" id="providers-payments">
+                <option value="telma-mvola">Telma MVola</option>
+                <option value="orange-money">Orange Money</option>
+            </select>
+        </div>
+        <div class="form-row form-row-wide">
+            <label>Réference de transaction <span class="required">*</span></label>
+            <input id="belopay_reference-transaction" type="text" autocomplete="off">
+        </div>
+        <div class="clear"></div>';
 }
