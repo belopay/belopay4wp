@@ -196,8 +196,16 @@ function belopay_init_gateway_class() {
 		 */
 		public function validate_fields() {
 
-            if( empty( $_POST[ 'billing_first_name' ]) ) {
-                wc_add_notice(  'First name is required!', 'error' );
+            if( empty( $_POST[ 'providers-payments' ]) ) {
+                wc_add_notice(  'Operateur mobile obligatoire!', 'error' );
+                return false;
+            }
+            if( empty( $_POST[ 'belopay_reference-transaction' ]) ) {
+                wc_add_notice(  'Reference transaction obligatoire!', 'error' );
+                return false;
+            }
+            if( empty( $_POST[ 'belopay_motif-transaction' ]) ) {
+                wc_add_notice(  'Motif de transaction obligatoire!', 'error' );
                 return false;
             }
             return true;
@@ -246,10 +254,13 @@ function belopay_init_gateway_class() {
                 // it could be different depending on your payment processor
                 if ( $body['response']['responseCode'] == 'APPROVED' ) {
 
+                    $operateur = "Telma";
+                    $ReferenceTransaction = "000990890789";
+                    $RaisonTransaction = "Robe bla";
                     $order->set_meta_data( [
-                        'Operateur' => "Telma",
-                        'ReferenceTransaction' => "000990890789",
-                        'RaisonTransaction' => "Robe bla",
+                        'Operateur' => $operateur,
+                        'ReferenceTransaction' => $ReferenceTransaction,
+                        'RaisonTransaction' => $RaisonTransaction,
                     ] );
                     $order->set_transaction_id("000990890789");
         
@@ -258,9 +269,15 @@ function belopay_init_gateway_class() {
                     $order->reduce_order_stock();
         
                     // some notes to customer (replace true with false to make it private)
-                    $order->add_order_note( 'Votre info paiement est reçu, 
-                    nos équipes vont faire une verification du paiement et 
-                    vous confirmer si c\'est bien reçu !', true );
+                    $order->add_order_note( '
+                        Votre info paiement est reçu, 
+                        nos équipes vont faire une verification du paiement et 
+                        vous confirmer si c\'est bien reçu ! <br/>
+                        Operateur : '.$operateur.'<br/>
+                        ReferenceTransaction : '.$ReferenceTransaction.'<br/>
+                        RaisonTransaction : '.$RaisonTransaction.'<br/>
+                        post : '.isset($_POST[ 'belopay_reference-transaction' ])?$_POST[ 'belopay_reference-transaction' ]:'Vida'.'
+                    ', true );
 
                     // Empty cart
                     $woocommerce->cart->empty_cart();
@@ -323,11 +340,11 @@ function getMobileMoneyManualForm(){
         </div>
         <div class="form-row form-row-wide">
             <label>Réference de transaction <span class="required">*</span></label>
-            <input id="belopay_reference-transaction" type="text" autocomplete="off">
+            <input name="belopay_reference-transaction" id="belopay_reference-transaction" type="text" autocomplete="off">
         </div>
         <div class="form-row form-row-wide">
             <label>Motif de transaction <span class="required">*</span></label>
-            <input id="belopay_motif-transaction" type="text" autocomplete="off">
+            <input name="belopay_motif-transaction" id="belopay_motif-transaction" type="text" autocomplete="off">
         </div>
         <div class="clear"></div>
     ';
