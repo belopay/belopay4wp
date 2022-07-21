@@ -251,7 +251,7 @@ function belopay_init_gateway_class() {
                         'ReferenceTransaction' => "000990890789",
                         'RaisonTransaction' => "Robe bla",
                     ] );
-                    $order->->set_transaction_id("000990890789");
+                    $order->set_transaction_id("000990890789");
         
                     // we received the payment
                     $order->payment_complete();
