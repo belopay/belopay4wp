@@ -245,14 +245,23 @@ function belopay_init_gateway_class() {
         
                 // it could be different depending on your payment processor
                 if ( $body['response']['responseCode'] == 'APPROVED' ) {
+
+                    $order->set_meta_data( [
+                        'Operateur' => "Telma",
+                        'ReferenceTransaction' => "000990890789",
+                        'RaisonTransaction' => "Robe bla",
+                    ] );
+                    $order->->set_transaction_id("000990890789");
         
                     // we received the payment
                     $order->payment_complete();
                     $order->reduce_order_stock();
         
                     // some notes to customer (replace true with false to make it private)
-                    $order->add_order_note( 'Hey, your order is paid! Thank you!', true );
-        
+                    $order->add_order_note( 'Votre info paiement est reçu, 
+                    nos équipes vont faire une verification du paiement et 
+                    vous confirmer si c\'est bien reçu !', true );
+
                     // Empty cart
                     $woocommerce->cart->empty_cart();
         
