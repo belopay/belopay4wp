@@ -80,21 +80,22 @@ function belopay_init_gateway_class() {
                 'title' => array(
                     'title'       => 'Title',
                     'type'        => 'text',
-                    'description' => 'This controls the title which the user sees during checkout.',
+                    'description' => "Ceci contrôle la description que l'utilisateur voit lors du paiement",
                     'default'     => 'Mobile money',
                     'desc_tip'    => true,
                 ),
                 'description' => array(
                     'title'       => 'Description',
                     'type'        => 'textarea',
-                    'description' => 'This controls the description which the user sees during checkout.',
-                    'default'     => 'Paiement par Mobile Money. <br /> MVola : 034 04 861 23 <br />Orange Money : 032 01 234 56. <br /><br />',
+                    'description' => "Ceci contrôle la description que l'utilisateur voit lors du paiement",
+                    'default'     => 'Paiement par Mobile Money. <br /> MVola : 034 04 861 23 
+                                        <br />Orange Money : 032 01 234 56. <br /><br />',
                 ),
                 'testmode' => array(
                     'title'       => 'Test mode',
                     'label'       => 'Enable Test Mode',
                     'type'        => 'checkbox',
-                    'description' => 'Place the payment gateway in test mode using test API keys.',
+                    'description' => "Placer la passerelle de paiement en mode test à l'aide de clés API de test",
                     'default'     => 'yes',
                     'desc_tip'    => true,
                 ),
@@ -223,10 +224,10 @@ function belopay_init_gateway_class() {
             /*
             * Your API interaction could be built with wp_remote_post()
             */
-            $response = wp_remote_post( '{payment processor endpoint}', $args );
+            // $response = wp_remote_post( '{payment processor endpoint}', $args );
 
             /**
-             * Simulation
+             * Simulation succées
              */
             $response = [
                 'body' => [
