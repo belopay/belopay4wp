@@ -88,8 +88,8 @@ function belopay_init_gateway_class() {
                     'title'       => 'Description',
                     'type'        => 'textarea',
                     'description' => "Ceci contrôle la description que l'utilisateur voit lors du paiement",
-                    'default'     => 'Paiement par Mobile Money. <br /> MVola : 034 04 861 23 
-                                        <br />Orange Money : 032 01 234 56. <br /><br />',
+                    'default'     => 'Paiement par Mobile Money. <br /> MVola : 034 04 861 23 <i>(Au nom de Elysa Marie alfredine)</i> 
+                                        <br />Orange Money : 032 98 530 20 <i>(Au nom de RAZAFINDRAFARA Elysa)</i> <br /> <br /><br />',
                 ),
                 'testmode' => array(
                     'title'       => 'Test mode',
@@ -309,12 +309,17 @@ function getMobileMoneyManualForm(){
             <label for="providers-payments">Vous utilisez quelle operateur : <span class="required">*</span></label>
             <select name="providers-payments" id="providers-payments">
                 <option value="telma-mvola">Telma MVola</option>
-                <option value="orange-money">Orange Money</option>
+                <option value="choix-orange-money">Orange Money</option>
             </select>
         </div>
         <div class="form-row form-row-wide">
             <label>Réference de transaction <span class="required">*</span></label>
             <input id="belopay_reference-transaction" type="text" autocomplete="off">
         </div>
-        <div class="clear"></div>';
+        <div class="form-row form-row-wide">
+            <label>Motif de transaction <span class="required">*</span></label>
+            <input id="belopay_motif-transaction" type="text" autocomplete="off">
+        </div>
+        <div class="clear"></div>
+    ';
 }
