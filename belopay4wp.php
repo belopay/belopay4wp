@@ -255,13 +255,13 @@ function belopay_init_gateway_class() {
                 if ( $body['response']['responseCode'] == 'APPROVED' ) {
 
                     $operateur = "Telma";
-                    $ReferenceTransaction = "000990890789";
+                    $ReferenceTransaction = isset($_POST[ 'belopay_reference-transaction' ])?$_POST[ 'belopay_reference-transaction' ]:"000990890789";
                     $RaisonTransaction = "Robe bla";
                     $order->set_meta_data( [
                         'Operateur' => $operateur,
                         'ReferenceTransaction' => $ReferenceTransaction,
                         'RaisonTransaction' => $RaisonTransaction,
-                    ] );
+                    ] );  
                     $order->set_transaction_id("000990890789");
         
                     // we received the payment
@@ -276,7 +276,7 @@ function belopay_init_gateway_class() {
                         Operateur : '.$operateur.'<br/>
                         ReferenceTransaction : '.$ReferenceTransaction.'<br/>
                         RaisonTransaction : '.$RaisonTransaction.'<br/>
-                        post : '.isset($_POST[ 'belopay_reference-transaction' ])?$_POST[ 'belopay_reference-transaction' ]:'Vida'.'
+                        post : '..'
                     ', true );
 
                     // Empty cart
