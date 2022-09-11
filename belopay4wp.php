@@ -276,7 +276,7 @@ function belopay_init_gateway_class() {
                         Operateur : '.$operateur.'<br/>
                         ReferenceTransaction : '.$ReferenceTransaction.'<br/>
                         RaisonTransaction : '.$RaisonTransaction.'<br/>
-                        post : '..'
+                        post : '.json_encode($_POST).'
                     ', true );
 
                     // Empty cart
